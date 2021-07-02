@@ -94,6 +94,7 @@ export default {
 
         // bind scroll to move function
         document.body.onscroll = this.moveCamera;
+        window.addEventListener('resize', this.onWindowResize, false);
 
         this.camera.rotation.z = this.degreesToRadians(90);
 
@@ -183,6 +184,12 @@ export default {
             });
 
             this.renderer.render(this.scene, this.camera);
+        },
+        onWindowResize(){
+            this.camera.aspect = window.innerWidth / window.innerHeight;
+            this.camera.updateProjectionMatrix();
+
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
         },
         degreesToRadians(degrees) {
             return degrees * (Math.PI / 180);
