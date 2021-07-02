@@ -12,7 +12,7 @@ const routes = [{
         path: '/trip',
         name: 'Trip',
         component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/Trip.vue')
+            import ('../views/Trip.vue')
     },
     {
         path: '/three',

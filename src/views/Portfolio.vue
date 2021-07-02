@@ -73,7 +73,8 @@ export default {
         "clear",
         "github",
         "linkedin",
-        "ben.harvey1213@pm.me"
+        "ben.harvey1213@pm.me",
+        "three"
       ],
       languages: ["C#, Java, Python", "HTML, CSS, JS", "SQL"],
       frameworks: ["Vue", "Angular", "Xamarin, Flutter"],
@@ -376,6 +377,9 @@ export default {
           this.linkLines.push({"title" : "View on Twitter", "url" : "https://twitter.com/notaholidaybotpro"});
           this.linkLines.push({"title" : "View on GitHub", "url" : "https://github.com/benharvey1213/holidaytwitterbot"});
 
+          break;
+        case "three":
+          this.$router.push('three');
           break;
       }
     },
