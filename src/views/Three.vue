@@ -95,6 +95,8 @@ export default {
         // bind scroll to move function
         document.body.onscroll = this.moveCamera;
 
+        this.camera.rotation.z = this.degreesToRadians(90);
+
         this.animate();
     },
     methods: {
@@ -121,15 +123,37 @@ export default {
             // get scroll amount
             const t = document.body.getBoundingClientRect().top;
 
-            // adjust camera
-            this.camera.position.x = this.box.position.x + (t * -0.01) * Math.cos((t * -0.001));
-            this.camera.position.y = this.box.position.y + (t * -0.0025) * Math.cos((t * -0.001));
-            this.camera.position.z = 40 + (this.box.position.z + (t * 0.01));
+            if (t >= -1000){
+                const percent = (t / -1000) * 100;
 
-            this.camera.lookAt(this.box.position);
+                console.log(percent);
 
-            // adjust tape position
-            this.tape.position.z = 1 + (t * -0.0022);
+                // rotate camera as percent of scroll amount
+                let desiredRadians = (this.degreesToRadians(-1) * percent) + this.degreesToRadians(90);
+
+                // hard cap rotation
+                if (desiredRadians < this.degreesToRadians(0)){
+                    desiredRadians = 0;
+                }
+
+                this.camera.rotation.z = desiredRadians;
+            }
+            else {
+                const tZero = t + 1000;
+
+                // adjust camera
+                this.camera.position.x = this.box.position.x + (tZero * -0.01) * Math.cos((tZero * -0.001));
+                this.camera.position.y = this.box.position.y + (tZero * -0.0025) * Math.cos((tZero * -0.001));
+                this.camera.position.z = 40 + (this.box.position.z + (tZero * 0.01));
+
+                this.camera.lookAt(this.box.position);
+
+                // adjust tape position
+                this.tape.position.z = 1 + (tZero * -0.0022);
+            }
+
+
+            
         },
         animate: function() {
             requestAnimationFrame(this.animate);
@@ -159,6 +183,9 @@ export default {
             });
 
             this.renderer.render(this.scene, this.camera);
+        },
+        degreesToRadians(degrees) {
+            return degrees * (Math.PI / 180);
         }
     }
 }
@@ -173,10 +200,14 @@ canvas {
 
 main {
     position: absolute;
-    padding-bottom: 6500px;
+    padding-bottom: 7500px;
 }
 
 p {
     color: transparent;
+}
+
+* {
+    scroll-behavior: smooth;
 }
 </style>
